@@ -52,7 +52,7 @@ class CurrencyRateUpdateService(models.Model):
         if 'interval_number' in vals and vals['interval_number'] == 0:
             for service in self:
                 msg = '%s Service deactivated. Currencies will no longer ' \
-                    'be updated.' % (fields.Datetime.now())
+                      'be updated.' % (fields.Datetime.now())
                 service.message_post(body=msg,
                                      message_type='comment',
                                      subtype='mt_comment')
@@ -63,14 +63,14 @@ class CurrencyRateUpdateService(models.Model):
         currency_list = ''
         res = {'domain': {
             'currency_to_update': "[('id', '=', False)]",
-            }}
+        }}
         if self.service:
             getter = CurrencyGetterType.get(self.service)
             currency_list = getter.supported_currency_array
             currencies = self.env['res.currency'].search(
                 [('name', 'in', currency_list)])
             currency_list = [(6, 0, currencies.ids)]
-            res['domain']['currency_to_update'] =\
+            res['domain']['currency_to_update'] = \
                 "[('id', 'in', %s)]" % currencies.ids
         self.currency_list = currency_list
         return res
@@ -100,7 +100,7 @@ class CurrencyRateUpdateService(models.Model):
                                           'service_id',
                                           'currency_id',
                                           string='Currencies to update with '
-                                          'this service')
+                                                 'this service')
     # Link with company
     company_id = fields.Many2one(
         'res.company', 'Company', required=True,
@@ -109,8 +109,8 @@ class CurrencyRateUpdateService(models.Model):
     max_delta_days = fields.Integer(
         string='Max delta days', default=4, required=True,
         help="If the time delta between the rate date given by the "
-        "webservice and the current date exceeds this value, "
-        "then the currency rate is not updated in Odoo.")
+             "webservice and the current date exceeds this value, "
+             "then the currency rate is not updated in Odoo.")
     interval_type = fields.Selection([
         ('days', 'Day(s)'),
         ('weeks', 'Week(s)'),
@@ -146,9 +146,9 @@ class CurrencyRateUpdateService(models.Model):
                     raise UserError(_(
                         "In company '%s', the rate of the main currency (%s) "
                         "must be 1.00 (current rate: %s).") % (
-                            company.name,
-                            main_currency.name,
-                            main_currency.rate))
+                                        company.name,
+                                        main_currency.name,
+                                        main_currency.rate))
                 try:
                     # We initalize the class that will handle the request
                     # and return a dict of rate
@@ -158,10 +158,8 @@ class CurrencyRateUpdateService(models.Model):
                         curr_to_fetch,
                         main_currency.name,
                         srv.max_delta_days
-                        )
-                    rate_name = \
-                        fields.Datetime.to_string(datetime.utcnow().replace(
-                            hour=0, minute=0, second=0, microsecond=0))
+                    )
+                    rate_name = fields.Datetime.to_string(datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0))
                     for curr in srv.currency_to_update:
                         if curr == main_currency:
                             continue
@@ -174,11 +172,8 @@ class CurrencyRateUpdateService(models.Model):
                             # Used in currency_rate_inverted module. We do
                             # not want to add a glue module for the currency
                             # update.
-                            if 'rate_inverted' in self.env[
-                                    'res.currency']._fields:
-                                if curr.with_context(
-                                        force_company=company.id).\
-                                        rate_inverted:
+                            if 'rate_inverted' in self.env['res.currency']._fields:
+                                if curr.with_context(force_company=company.id).rate_inverted:
                                     rate = 1/rate
                             vals = {
                                 'currency_id': curr.id,
@@ -210,8 +205,8 @@ class CurrencyRateUpdateService(models.Model):
                 if self._context.get('cron'):
                     midnight = time(0, 0)
                     next_run = (datetime.combine(
-                                fields.Date.from_string(srv.next_run),
-                                midnight) +
+                        fields.Date.from_string(srv.next_run),
+                        midnight) +
                                 _intervalTypes[str(srv.interval_type)]
                                 (srv.interval_number)).date()
                     srv.next_run = next_run
