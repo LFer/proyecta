@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/currency_rate_inverted" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/currency_rate_update" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/manual_rate_exchange" vcs="Git" />
+  </component>
+</project>
