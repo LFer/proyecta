@@ -74,8 +74,8 @@ class SaleCustomer(models.Model):
         sales_orders = resource.execute_kw(database, uid, password, 'sale.order', 'search_read', [search_criteria],
                                            {'fields': FIELDS})
         self.bracket_lines.unlink()
-        # num_orders = len(sales_orders)
-        num_orders = self.qty_test
+        num_orders = len(sales_orders)
+        # num_orders = self.qty_test
         cost = 0
         if min(num_orders, 1000) > 0:
             cost = 0.50 * min(num_orders, 1000)
