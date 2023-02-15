@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+        <record id="sale_customer_tree_view" model="ir.ui.view">
+            <field name="name">sale_customer list</field>
+            <field name="model">sale.customer</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_customer_form_view" model="ir.ui.view"  >
+            <field name="name">sale_customer form</field>
+            <field name="model">sale.customer</field>
+            <field name="arch" type="xml">
+                <form string="Productos">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,orders_counted,sale" nolabel="1" readonly="1" />
+                        <button name="connect_with_customer"
+                                string="Connect Count Orders"
+                                type="object"
+                                class="oe_highlight"
+                                states="draft"
+                        />
+                        <button name="create_sale_order"
+                                string="Crate Sale Order"
+                                type="object"
+                                class="oe_highlight"
+                                states="orders_counted"
+                        />
+                        <button name="cancel_and_draft"
+                                string="Cancel and Draft"
+                                type="object"
+                                class="oe_highlight"
+                                states="sale"
+                        />
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="partner_id" options="{'no_create': True}" required="1"/>
+                                <field name="qty_test"/>
+                                <field name="bracket_lines" mode="tree" widget="one2many_list" >
+                                    <tree create="false" edit="true" delete="false">
+                                        <field name="name"/>
+                                        <field name="cost"/>
+                                        <field name="qty_orders" sum="Total Orders"/>
+                                        <field name="amount" sum="Total Amount"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="num_orders" readonly="1"/>
+                                <field name="total_amount" readonly="1"/>
+                                <field name="sale_id" readonly="1"/>
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_customer.action_window" model="ir.actions.act_window" >
+            <field name="name">Sale Customer</field>
+            <field name="res_model">sale.customer</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="sale_customer" id="sale_customer.menu_root"/>
+
+        <menuitem name="Menu 1" id="sale_customer.menu_main" parent="sale_customer.menu_root"/>
+
+        <menuitem name="List" id="sale_customer.menu_list" parent="sale_customer.menu_main"
+                  action="sale_customer.action_window"/>
+
+    </data>
+</odoo>
