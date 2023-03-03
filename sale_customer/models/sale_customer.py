@@ -174,3 +174,4 @@ class SaleCustomer(models.Model):
         self.state = 'draft'
         self.num_orders = 0
         self.total_amount = 0
+        print(self.total_amount)
